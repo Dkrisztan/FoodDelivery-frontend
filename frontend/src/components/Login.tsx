@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -17,11 +20,12 @@ export function Login() {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    console.log(formData);
-
     try {
-      const response = await axios.post('http://localhost:3000/user', formData);
-      console.log(response);
+      const {
+        data: { accessToken },
+      } = await axios.post('http://localhost:3000/auth/login', formData);
+      Cookies.set('accessToken', accessToken);
+      navigate('/profile');
     } catch (error) {
       console.error('Error submitting form:', error);
     }
