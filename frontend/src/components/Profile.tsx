@@ -4,6 +4,15 @@ import { useEffect, useState } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { TimeLine } from './TimeLine.tsx';
 import { Plug } from './Plug.tsx';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select.tsx';
+import Icons from '@/utils/Icons.tsx';
 
 //! Used for testing
 const plugArray = [
@@ -92,6 +101,28 @@ export function Profile() {
         return <Plug name={plug.name} color={plug.color} icon={plug.icon} index={index} />;
       })}
       <TimeLine />
+      <div className='px-96 py-10'>
+        <Select>
+          <SelectTrigger className='w-24'>
+            <SelectValue>
+              <img alt='icon' height='32' src={Icons['microwave']} width='32' />
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value='icon'>
+                <img alt='icon' height='32' src={Icons['microwave']} width='32' />
+              </SelectItem>
+              <SelectItem value='banana'>
+                <img alt='icon' height='32' src={Icons['oven']} width='32' />
+              </SelectItem>
+              <SelectItem value='blueberry'>
+                <img alt='icon' height='32' src={Icons['refrigerator']} width='32' />
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
     </>
   );
 }
