@@ -10,26 +10,31 @@ const plugArray = [
   {
     name: 'Kávéfőző',
     color: '#87abe6',
-    icon: 'microwave',
+    icon: 'coffeeMaker',
   },
   {
     name: 'Hűtő',
     color: '#03fc94',
-    icon: 'oven',
+    icon: 'refrigerator',
   },
   {
     name: 'TV',
     color: '#8557c9',
-    icon: 'microwave',
+    icon: 'television',
   },
   {
-    name: 'Kályha',
+    name: 'Hősugárzó',
     color: '#eb09b6',
-    icon: 'oven',
+    icon: 'radiator',
   },
   {
     name: 'Mosógép',
     color: '#c7a5bf',
+    icon: 'laundryMachine',
+  },
+  {
+    name: 'Mikró',
+    color: '#d3276c',
     icon: 'microwave',
   },
 ];
@@ -65,15 +70,11 @@ export function Profile() {
       <div className='container mx-auto mt-8'>
         <div className='bg-blue-200 shadow-md rounded px-8 pt-6 pb-8 mb-4'>
           <h1 className='text-2xl mb-4 flex items-center'>
-            <FaUser className='mr-2' /> User Profile
+            <FaUser className='mr-2' /> {profile.name}
           </h1>
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-bold mb-2'>ID:</label>
             <p>{profile.id}</p>
-          </div>
-          <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-bold mb-2'>Name:</label>
-            <p>{profile.name}</p>
           </div>
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-bold mb-2'>Email:</label>
