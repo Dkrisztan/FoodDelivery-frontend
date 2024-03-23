@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
-import { FaUser } from 'react-icons/fa';
+import userIcon from '../assets/user.png';
 import { TimeLine } from './TimeLine.tsx';
 import { Plug } from './Plug.tsx';
 
@@ -45,10 +45,10 @@ export function Profile() {
   };
 
   const [profile, setProfile] = useState({
-    id: undefined,
-    name: undefined,
-    email: undefined,
-    password: undefined,
+    id: '',
+    name: '',
+    email: '',
+    password: '',
   });
 
   useEffect(() => {
@@ -70,7 +70,8 @@ export function Profile() {
       <div className='container mx-auto mt-8'>
         <div className='bg-blue-200 shadow-md rounded px-8 pt-6 pb-8 mb-4'>
           <h1 className='text-2xl mb-4 flex items-center'>
-            <FaUser className='mr-2' /> {profile.name}
+            <img src={userIcon} width='64px' height='64px' alt='user' />
+            {profile && profile.name.toUpperCase()}
           </h1>
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-bold mb-2'>ID:</label>
@@ -83,16 +84,10 @@ export function Profile() {
         </div>
       </div>
       {/* Mapping over the user's plug array */}
-      {/*<Plug name='Kávéfőző' color='#87abe6' />*/}
-      {/*<Plug name='Hűtő' color='#03fc94' />*/}
-      {/*<Plug name='TV' color='#8557c9' />*/}
-      {/*<Plug name='Kályha' color='#eb09b6' />*/}
-      {/*<Plug name='Mosógép' color='#c7a5bf' />*/}
       {plugArray.map((plug, index) => {
         return <Plug name={plug.name} color={plug.color} icon={plug.icon} index={index} />;
       })}
       <TimeLine />
-      <div className='px-96 py-10'></div>
     </>
   );
 }

@@ -27,8 +27,8 @@ interface PlugProps {
   index: number;
   icon: string;
 }
-export function Plug({ name, color, index, icon }: PlugProps) {
-  const [colorPicker, setColorPicker] = useState('#7e4242');
+export function Plug({ name, color, icon, index }: PlugProps) {
+  const [colorPicker, setColorPicker] = useState('');
 
   let alternatingBackground = '#F1DFD0';
   if (index % 2 !== 0) alternatingBackground = '#F5E8DD';
@@ -54,38 +54,30 @@ export function Plug({ name, color, index, icon }: PlugProps) {
                 <Label htmlFor='name' className='text-right'>
                   Név
                 </Label>
-                <Input type='text' id='name' className='bg-neutral-800 text-white' />
+                <Input type='text' id='name' value={name} className='bg-neutral-800 text-white' />
               </div>
               <div>
                 <Select>
                   <SelectTrigger className='w-[40px] p-0 outline-none border-none focus:outline-none focus:shadow-none bg-neutral-800'>
                     <SelectValue
-                      placeholder={
-                        <img alt='icon' height='64' src={Icons['microwave']} width='64' />
-                      }
+                      placeholder={<img alt='icon' height='64' src={Icons[icon]} width='64' />}
                     />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value='icon'>
-                        <img alt='icon' height='64' width='64' src={Icons['microwave']} />
-                      </SelectItem>
-                      <SelectItem value='banana'>
-                        <img alt='icon' height='64' width='64' src={Icons['oven']} />
-                      </SelectItem>
-                      <SelectItem value='blueberry'>
-                        <img alt='icon' height='64' width='64' src={Icons['refrigerator']} />
-                      </SelectItem>
+                      {Object.keys(Icons).map((value, index) => {
+                        return (
+                          <SelectItem value={index.toString()}>
+                            <img alt='icon' height='64' width='64' src={Icons[value]} />
+                          </SelectItem>
+                        );
+                      })}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
               </div>
             </div>
-            <HexColorPicker
-              color={colorPicker}
-              onChange={setColorPicker}
-              className='react-colorful'
-            />
+            <HexColorPicker color={color} onChange={setColorPicker} className='react-colorful' />
             <DialogFooter>
               <Button
                 className='mx-auto bg-gray-200 text-black font-bold hover:bg-gray-300'
