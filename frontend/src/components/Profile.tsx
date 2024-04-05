@@ -24,7 +24,7 @@ const plugArray = [
   },
   {
     name: 'Hősugárzó',
-    color: '#eb09b6',
+    color: '#f58f15',
     icon: 'radiator',
   },
   {

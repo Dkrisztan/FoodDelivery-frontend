@@ -95,7 +95,7 @@ export function Plug({ name, color, icon, index }: PlugProps) {
         >
           {Array.from({ length: 12 }, (_, index) => (
             <div key={index} className='col-span-1 relative'>
-              {<div style={{ backgroundColor: color }} className='w-12 h-2 rounded'></div>}
+              {<div style={{ backgroundColor: color }} className='w-[1px] h-8'></div>}
             </div>
           ))}
         </div>
