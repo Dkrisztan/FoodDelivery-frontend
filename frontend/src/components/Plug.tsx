@@ -1,6 +1,7 @@
 import Icons from '../utils/Icons.tsx';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -20,15 +21,50 @@ import {
 } from '@/components/ui/select.tsx';
 import { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 interface PlugProps {
+  id: string;
   name: string;
   color: string;
   index: number;
   icon: string;
+  refetchData: () => void;
 }
-export function Plug({ name, color, icon, index }: PlugProps) {
-  const [colorPicker, setColorPicker] = useState('');
+export function Plug({ id, name, color, icon, index, refetchData }: PlugProps) {
+  const config = {
+    headers: { Authorization: `Bearer ${Cookies.get('accessToken')}` },
+  };
+
+  const [newName, setNewName] = useState(name);
+  const [newColor, setNewColor] = useState(color);
+  const [newIcon, setNewIcon] = useState(icon);
+
+  async function handlePlugDelete() {
+    try {
+      const response = await axios.delete('http://localhost:3000/plug/' + id, config);
+      console.log(response);
+      refetchData();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function handlePlugUpdate() {
+    const plugData = {
+      name: newName,
+      iconName: newIcon,
+      color: newColor,
+    };
+    try {
+      const response = await axios.patch('http://localhost:3000/plug/' + id, plugData, config);
+      console.log(response);
+      refetchData();
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   let alternatingBackground = '#F1DFD0';
   if (index % 2 !== 0) alternatingBackground = '#F5E8DD';
@@ -54,10 +90,18 @@ export function Plug({ name, color, icon, index }: PlugProps) {
                 <Label htmlFor='name' className='text-right'>
                   Név
                 </Label>
-                <Input type='text' id='name' value={name} className='bg-neutral-800 text-white' />
+                <Input
+                  type='text'
+                  id='name'
+                  value={newName}
+                  onChange={(e) => {
+                    setNewName(e.target.value);
+                  }}
+                  className='bg-neutral-800 text-white'
+                />
               </div>
               <div>
-                <Select>
+                <Select onValueChange={(e) => setNewIcon(Object.keys(Icons)[+e].toString())}>
                   <SelectTrigger className='w-[40px] p-0 outline-none border-none focus:outline-none focus:shadow-none bg-neutral-800'>
                     <SelectValue
                       placeholder={<img alt='icon' height='64' src={Icons[icon]} width='64' />}
@@ -77,27 +121,40 @@ export function Plug({ name, color, icon, index }: PlugProps) {
                 </Select>
               </div>
             </div>
-            <HexColorPicker color={color} onChange={setColorPicker} className='react-colorful' />
+            <HexColorPicker color={newColor} onChange={setNewColor} className='react-colorful' />
             <DialogFooter>
-              <Button
-                className='mx-auto bg-gray-200 text-black font-bold hover:bg-gray-300'
-                type='submit'
-              >
-                Változtatások mentése
-              </Button>
+              <DialogClose asChild>
+                <Button
+                  className='mx-auto bg-gray-200 text-black font-bold hover:bg-gray-300'
+                  type='submit'
+                  onClick={handlePlugUpdate}
+                >
+                  Változtatások mentése
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>
 
         <div
           style={{ backgroundColor: alternatingBackground }}
-          className='grid grid-cols-12 flex-grow px-8 h-auto items-center rounded-r-xl'
+          className='grid grid-cols-13 flex-grow pl-12 h-auto items-center rounded-r-xl'
         >
           {Array.from({ length: 12 }, (_, index) => (
             <div key={index} className='col-span-1 relative'>
-              {<div style={{ backgroundColor: color }} className='w-[1px] h-8'></div>}
+              <div style={{ backgroundColor: color }} className='w-[1px] h-8'></div>
             </div>
           ))}
+          <div className='col-span-1 relative h-full'>
+            <button
+              onClick={() => {
+                handlePlugDelete().then();
+              }}
+              className='w-full h-full bg-red-600 text-white rounded-r-xl hover:bg-red-700 hover:shadow-md transition duration-300 ease-in-out'
+            >
+              Törlés
+            </button>
+          </div>
         </div>
       </div>
     </>
