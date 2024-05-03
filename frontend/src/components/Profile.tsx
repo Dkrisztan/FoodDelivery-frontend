@@ -27,6 +27,8 @@ import {
 } from '@/components/ui/select.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { HexColorPicker } from 'react-colorful';
+// @ts-expect-error
+import MyTimeline from './MyTimeline';
 
 //! Used for testing
 // const plugArray = [
@@ -239,6 +241,7 @@ export function Profile() {
         );
       })}
       <TimeLine />
+      <MyTimeline />
     </>
   );
 }

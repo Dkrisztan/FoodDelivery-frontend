@@ -16,6 +16,14 @@
     padding-right: 20px !important;
 }
 
+.vis-timeline {
+    border-radius: 20px;
+}
+
+.vis-item.green {
+    background-color: #72e172;
+}
+
 @layer base {
     :root {
         --background: 0 0% 100%;

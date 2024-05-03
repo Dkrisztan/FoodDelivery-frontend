@@ -66,7 +66,7 @@ export function Plug({ id, name, color, icon, index, refetchData }: PlugProps) {
     }
   }
 
-  let alternatingBackground = '#F1DFD0';
+  let alternatingBackground = '#c29d9d';
   if (index % 2 !== 0) alternatingBackground = '#F5E8DD';
   return (
     <>
