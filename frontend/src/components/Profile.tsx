@@ -99,7 +99,7 @@ export function Profile() {
       userId: profile.id,
     };
     try {
-      const response = await axios.post('http://localhost:3000/plug', plugData, config);
+      const response = await axios.post('https://onlab-backend.vercel.app/plug', plugData, config);
       console.log(response);
       fetchProfile();
     } catch (e) {
@@ -109,7 +109,7 @@ export function Profile() {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/auth/profile', config);
+      const response = await axios.get('https://onlab-backend.vercel.app/auth/profile', config);
       setProfile(response.data);
       console.log(response.data);
     } catch (error) {

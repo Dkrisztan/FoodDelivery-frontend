@@ -43,7 +43,7 @@ export function Plug({ id, name, color, icon, index, refetchData }: PlugProps) {
 
   async function handlePlugDelete() {
     try {
-      const response = await axios.delete('http://localhost:3000/plug/' + id, config);
+      const response = await axios.delete('https://onlab-backend.vercel.app/plug/' + id, config);
       console.log(response);
       refetchData();
     } catch (e) {
@@ -58,7 +58,11 @@ export function Plug({ id, name, color, icon, index, refetchData }: PlugProps) {
       color: newColor,
     };
     try {
-      const response = await axios.patch('http://localhost:3000/plug/' + id, plugData, config);
+      const response = await axios.patch(
+        'https://onlab-backend.vercel.app/plug/' + id,
+        plugData,
+        config,
+      );
       console.log(response);
       refetchData();
     } catch (e) {

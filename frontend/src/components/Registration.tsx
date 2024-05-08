@@ -23,7 +23,7 @@ export function Registration() {
     console.log(formData);
 
     try {
-      const response = await axios.post('http://localhost:3000/user', formData);
+      const response = await axios.post('https://onlab-backend.vercel.app/user', formData);
       console.log(response);
       navigate('/login');
     } catch (error) {
