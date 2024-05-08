@@ -8,6 +8,7 @@ export function Plug({ name, color }: PlugProps) {
   const [isMidOpen, setMidIsOpen] = useState(false);
   const [isBottomOpen, setBottomIsOpen] = useState(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const oldHours = Array.from({ length: 12 }, (_, index) => (index + 1) * 2).reverse();
   const hours = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24];
   console.log(hours);

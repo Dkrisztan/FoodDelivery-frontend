@@ -27,7 +27,8 @@ export function DataTest() {
           path: `/v1.0/devices/${deviceId}/logs?start_time=${startDateInEpoch.toString()}&end_time=${endDateInEpoch.toString()}&type=7`,
           method: 'GET',
         });
-        setCommands(response.data);
+        // @ts-ignore
+        setCommands(response);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -38,6 +39,7 @@ export function DataTest() {
 
   console.log(commands);
 
+  // @ts-ignore
   return (
     <div className='flex flex-col items-center justify-between gap-72 mt-10'>
       <DatePicker
