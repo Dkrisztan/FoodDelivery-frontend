@@ -23,7 +23,7 @@ export function Login() {
     try {
       const {
         data: { accessToken },
-      } = await axios.post('https://onlab-backend.vercel.app//auth/login', formData);
+      } = await axios.post('https://onlab-backend.vercel.app/auth/login', formData);
       Cookies.set('accessToken', accessToken);
       navigate('/profile');
     } catch (error) {
