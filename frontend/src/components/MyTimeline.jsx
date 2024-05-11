@@ -1,49 +1,93 @@
 import React, { useEffect } from 'react';
 import { DataSet, Timeline } from 'vis-timeline/standalone';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-const MyTimeline = () => {
-  const groups = new DataSet([
-    { content: 'Formula E', id: 'Formula E', value: 1, className: 'green' },
-    { content: 'WRC', id: 'WRC', value: 2, className: 'green' },
-    { content: 'MotoGP', id: 'MotoGP', value: 3, className: 'green' },
-    { content: 'V8SC', id: 'V8SC', value: 4, className: 'bg-amber-400' },
-    { content: 'WTCC', id: 'WTCC', value: 5, className: 'bg-amber-400' },
-    { content: 'F1', id: 'F1', value: 6, className: 'bg-amber-400' },
-  ]);
+const today = new Date();
+const year = today.getFullYear();
+const month = String(today.getMonth() + 1).padStart(2, '0'); // Adding 1 because getMonth() returns zero-based month (0 for January)
+const day = String(today.getDate() - 2).padStart(2, '0');
+const nextDay = String(today.getDate() + 1).padStart(2, '0');
 
-  const items = new DataSet([
-    {
-      start: new Date(2015, 0, 10),
-      end: new Date(2015, 0, 11),
-      group: 'Formula E',
-      className: 'bg-amber-400',
-      content: '',
-      id: '531@motocal.net',
-    },
-    {
-      start: new Date(2015, 0, 22),
-      end: new Date(2015, 0, 26),
-      group: 'WRC',
-      className: 'green',
-      content: '',
-      id: '591@motocal.net',
-    },
-    {
-      start: new Date('2024-05-03T12:00:00Z'),
-      end: new Date('2024-05-03T12:02:00Z'),
-      group: 'MotoGP',
-      className: 'bg-amber-400',
-      content: '',
-      id: '578@motocal.net',
-    },
-  ]);
+const todayDateFormatted = `${year}-${month}-${day}`;
+const tomorrowDateFormatted = `${year}-${month}-${nextDay}`;
+
+const MyTimeline = ({ plugs }) => {
+  const config = {
+    headers: { Authorization: `Bearer ${Cookies.get('accessToken')}` },
+  };
+
+  const groups = new DataSet([]);
+  const items = new DataSet([]);
+
+  useEffect(() => {
+    async function handleData() {
+      groups.clear();
+      items.clear();
+      for (const value of plugs) {
+        groups.add({
+          content: value.name,
+          id: value.deviceId,
+        });
+        const incomingData = await axios.get(
+          'https://onlab-backend.vercel.app/data/' + value.deviceId,
+          config,
+        );
+        console.log(incomingData);
+        incomingData.data.forEach((d) => {
+          items.add({
+            start: new Date(d.startTime),
+            end: new Date(d.endTime),
+            group: value.deviceId,
+            className: value.color,
+          });
+          console.log({
+            start: new Date(d.startTime),
+            end: new Date(d.endTime),
+            group: value.deviceId,
+            className: value.color,
+          });
+        });
+      }
+    }
+    handleData().then((r) => r);
+  }, [plugs]);
+
+  // const items = new DataSet([
+  //   {
+  //     start: new Date(2015, 0, 10),
+  //     end: new Date(2015, 0, 11),
+  //     group: 'ezek',
+  //     className: 'dark-red',
+  //   },
+  //   {
+  //     start: new Date(2015, 0, 22),
+  //     end: new Date(2015, 0, 26),
+  //     group: 'masok',
+  //     className: 'mint-green',
+  //   },
+  //   {
+  //     start: new Date('2024-05-03T12:00:00Z'),
+  //     end: new Date('2024-05-03T12:02:00Z'),
+  //     group: 'kell',
+  //     className: 'mustard-yellow',
+  //   },
+  //   {
+  //     start: new Date(2017, 0, 22),
+  //     end: new Date(2018, 0, 26),
+  //     group: 'masok',
+  //     className: 'mint-green',
+  //   },
+  // ]);
 
   const options = {
     orientation: 'both',
+    stack: false,
     editable: false,
     groupEditable: false,
-    start: new Date(2014, 11, 10),
-    end: Date.now(),
+    selectable: false,
+    start: new Date(todayDateFormatted),
+    end: new Date(tomorrowDateFormatted),
   };
 
   useEffect(() => {
@@ -60,7 +104,7 @@ const MyTimeline = () => {
   }, [items]);
 
   return (
-    <div style={{ paddingRight: '80px', paddingLeft: '80px', paddingBottom: '20px' }}>
+    <div style={{ paddingRight: '200px', paddingLeft: '200px', paddingBottom: '20px' }}>
       <div style={{ borderRadius: '30px' }} id='timeline-container' />
     </div>
   );

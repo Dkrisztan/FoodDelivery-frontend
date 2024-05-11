@@ -74,7 +74,7 @@ export function Plug({ id, name, color, icon, index, refetchData }: PlugProps) {
   if (index % 2 !== 0) alternatingBackground = '#F5E8DD';
   return (
     <>
-      <div className='container mx-auto mt-4 mb-4 flex flex-row h-auto'>
+      <div className='w-full px-[200px] mx-auto mt-4 mb-4 flex flex-row h-auto'>
         <Dialog>
           <DialogTrigger asChild>
             <div

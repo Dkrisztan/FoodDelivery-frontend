@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .background-container {
-    background-image: url('assets/wallpaper.jpg');
+    background-image: url('assets/care-elder.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -20,8 +20,34 @@
     border-radius: 20px;
 }
 
-.vis-item.green {
-    background-color: #72e172;
+.vis-item.dark-blue {
+    background-color: #16323F;
+    border: thick #16323F;
+}
+
+.vis-item.mustard-yellow {
+    background-color: #EAD178;
+    border: thick #EAD178;
+}
+
+.vis-item.dark-orange {
+    background-color: #D55212;
+    border: thick #D55212;
+}
+
+.vis-item.dark-red {
+    background-color: #7D1012;
+    border: thick #7D1012;
+}
+
+.vis-item.light-pink {
+    background-color: #E54263;
+    border: thick #E54263;
+}
+
+.vis-item.mint-green {
+    background-color: #31A66A;
+    border: thick #31A66A;
 }
 
 @layer base {

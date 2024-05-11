@@ -2,8 +2,6 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import userIcon from '../assets/user.png';
-import { TimeLine } from './TimeLine.tsx';
-import { Plug } from './Plug.tsx';
 import { FaSquarePlus } from 'react-icons/fa6';
 import {
   Dialog,
@@ -64,13 +62,13 @@ import MyTimeline from './MyTimeline';
 //   },
 // ];
 
-interface Plug {
-  id: string;
-  deviceId: string;
-  name: string;
-  iconName: string;
-  color: string;
-}
+// interface Plug {
+//   id: string;
+//   deviceId: string;
+//   name: string;
+//   iconName: string;
+//   color: string;
+// }
 
 export function Profile() {
   const config = {
@@ -123,7 +121,7 @@ export function Profile() {
 
   return (
     <>
-      <div className='container mx-auto mt-8'>
+      <div className='w-full px-[200px] mx-auto mt-8'>
         <div className='bg-blue-200 shadow-md rounded px-8 pt-6 pb-8 mb-4'>
           <h1 className='text-2xl mb-4 flex items-center'>
             <img src={userIcon} width='64px' height='64px' alt='user' />
@@ -224,24 +222,25 @@ export function Profile() {
         </Dialog>
       </div>
 
+      <MyTimeline plugs={profile.plugs} />
+
       {/* Mapping over the user's plug array */}
       {/*{plugArray.map((plug, index) => {*/}
       {/*  return <Plug name={plug.name} color={plug.color} icon={plug.icon} index={index} />;*/}
       {/*})}*/}
-      {profile.plugs.map((plug: Plug, index) => {
-        return (
-          <Plug
-            id={plug.id}
-            name={plug.name}
-            color={plug.color}
-            icon={plug.iconName}
-            index={index}
-            refetchData={fetchProfile}
-          />
-        );
-      })}
-      <TimeLine />
-      <MyTimeline />
+      {/*{profile.plugs.map((plug: Plug, index) => {*/}
+      {/*  return (*/}
+      {/*    <Plug*/}
+      {/*      id={plug.id}*/}
+      {/*      name={plug.name}*/}
+      {/*      color={plug.color}*/}
+      {/*      icon={plug.iconName}*/}
+      {/*      index={index}*/}
+      {/*      refetchData={fetchProfile}*/}
+      {/*    />*/}
+      {/*  );*/}
+      {/*})}*/}
+      {/*<TimeLine />*/}
     </>
   );
 }
