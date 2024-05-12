@@ -119,8 +119,8 @@ export function Home() {
             <h5 className='mb-1 text-xl font-medium text-gray-900 dark:text-white'>
               Dr. Sántha Hunor
             </h5>
-            <span className='text-sm text-gray-600 dark:text-gray-400'>Feltaláló</span>
-            <p className='font-semibold'>Ötletgazda & Megrendelő</p>
+            <span className='text-sm text-gray-600 dark:text-gray-400 pb-4'>Feltaláló</span>
+            <p className='font-semibold text-xl'>Ötletgazda & Megrendelő</p>
           </div>
         </div>
         <div className='w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
@@ -133,10 +133,10 @@ export function Home() {
             <h5 className='mb-1 text-xl font-medium text-gray-900 dark:text-white'>
               Dancs Krisztián
             </h5>
-            <span className='text-sm text-gray-600 dark:text-gray-400'>
+            <span className='text-sm text-gray-600 dark:text-gray-400 pb-4'>
               BME mérnökinformatika BSc.
             </span>
-            <p className='font-semibold'>Web applikáció felelős</p>
+            <p className='font-semibold text-xl'>Web applikáció felelős</p>
           </div>
         </div>
         <div className='w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
@@ -149,10 +149,10 @@ export function Home() {
             <h5 className='mb-1 text-xl font-medium text-gray-900 dark:text-white'>
               Varga Ádám Marcell
             </h5>
-            <span className='text-sm text-gray-600 dark:text-gray-400'>
+            <span className='text-sm text-gray-600 dark:text-gray-400 pb-4'>
               BME mérnökinformatika MSc.
             </span>
-            <p className='font-semibold'>Mobil applikáció felelős</p>
+            <p className='font-semibold text-xl'>Mobil applikáció felelős</p>
           </div>
         </div>
       </div>
