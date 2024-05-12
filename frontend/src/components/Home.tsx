@@ -5,6 +5,9 @@ import { FaUserPlus } from 'react-icons/fa';
 import { SVGProps, useRef } from 'react';
 import { JSX } from 'react/jsx-runtime';
 import { TypeAnimation } from 'react-type-animation';
+import krisztian from '../assets/krisztian-circle.png';
+import adam from '../assets/adam-circle.png';
+import hunor from '../assets/hunor-circle.png';
 
 function ArrowDownIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
@@ -105,7 +108,54 @@ export function Home() {
       >
         Second Page
       </div>
-      <div className='w-full h-screen flex justify-center items-center snap-start'>Third Page</div>
+      <div className='w-full h-screen flex flex-row gap-36 justify-center items-center snap-start bg-[#A0D8B3]'>
+        <div className='w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
+          <div className='flex flex-col items-center pb-10 pt-8'>
+            <img
+              className='w-64 h-64 mb-3 rounded-full shadow-lg'
+              src={hunor}
+              alt='Dr. Sántha Hunor'
+            />
+            <h5 className='mb-1 text-xl font-medium text-gray-900 dark:text-white'>
+              Dr. Sántha Hunor
+            </h5>
+            <span className='text-sm text-gray-600 dark:text-gray-400'>Feltaláló</span>
+            <p className='font-semibold'>Ötletgazda & Megrendelő</p>
+          </div>
+        </div>
+        <div className='w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
+          <div className='flex flex-col items-center pb-10 pt-8'>
+            <img
+              className='w-64 h-64 mb-3 rounded-full shadow-lg'
+              src={krisztian}
+              alt='Dancs Krisztián'
+            />
+            <h5 className='mb-1 text-xl font-medium text-gray-900 dark:text-white'>
+              Dancs Krisztián
+            </h5>
+            <span className='text-sm text-gray-600 dark:text-gray-400'>
+              BME mérnökinformatika BSc.
+            </span>
+            <p className='font-semibold'>Web applikáció felelős</p>
+          </div>
+        </div>
+        <div className='w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
+          <div className='flex flex-col items-center pb-10 pt-8'>
+            <img
+              className='w-64 h-64 mb-3 rounded-full shadow-lg'
+              src={adam}
+              alt='Varga Ádám Marcell'
+            />
+            <h5 className='mb-1 text-xl font-medium text-gray-900 dark:text-white'>
+              Varga Ádám Marcell
+            </h5>
+            <span className='text-sm text-gray-600 dark:text-gray-400'>
+              BME mérnökinformatika MSc.
+            </span>
+            <p className='font-semibold'>Mobil applikáció felelős</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
