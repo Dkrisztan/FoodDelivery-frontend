@@ -59,25 +59,7 @@ const MyTimeline = ({ plugs }) => {
   //     end: new Date(2015, 0, 11),
   //     group: 'ezek',
   //     className: 'dark-red',
-  //   },
-  //   {
-  //     start: new Date(2015, 0, 22),
-  //     end: new Date(2015, 0, 26),
-  //     group: 'masok',
-  //     className: 'mint-green',
-  //   },
-  //   {
-  //     start: new Date('2024-05-03T12:00:00Z'),
-  //     end: new Date('2024-05-03T12:02:00Z'),
-  //     group: 'kell',
-  //     className: 'mustard-yellow',
-  //   },
-  //   {
-  //     start: new Date(2017, 0, 22),
-  //     end: new Date(2018, 0, 26),
-  //     group: 'masok',
-  //     className: 'mint-green',
-  //   },
+  //   }
   // ]);
 
   const options = {

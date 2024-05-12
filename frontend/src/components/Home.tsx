@@ -1,43 +1,50 @@
-import { WebSocketComponent } from './WebSocketComponent.tsx';
-import { useState } from 'react';
+import bg from '../assets/homepage.png';
+import { FaRightToBracket } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
+import { FaUserPlus } from 'react-icons/fa';
 
 export function Home() {
-  const [rooms, setRooms] = useState('');
-  const [joinedRooms, setJoinedRooms] = useState<string[]>([]);
+  const navigate = useNavigate();
 
-  const handleJoinRoom = () => {
-    const roomsArray = rooms.split(',').map((room) => room.trim());
-    setJoinedRooms(roomsArray); // Set the joined rooms
+  const onLoginClick = () => {
+    navigate('/login');
   };
 
-  const handleLeaveRoom = () => {
-    setJoinedRooms([]); // Leave the rooms
+  const onRegisterClick = () => {
+    navigate('/register');
   };
 
   return (
-    <>
-      <div className='flex'>
-        <input
-          type='text'
-          className='m-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-          value={rooms}
-          onChange={(e) => setRooms(e.target.value)}
-          required
-        />
-        <button
-          className='m-4 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded'
-          onClick={handleJoinRoom}
-        >
-          Join Room
-        </button>
-        <button
-          className='m-4 bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded'
-          onClick={handleLeaveRoom}
-        >
-          Leave Room
-        </button>
+    <div className='w-full h-screen snap-y snap-mandatory overflow-y-scroll scrollbar-thin scrollbar-thumb-amber-400 scrollbar-track-gray-200'>
+      <div
+        className='w-full h-screen flex flex-col justify-center items-center snap-start bg-cover bg-center'
+        style={{ backgroundImage: `url(${bg})` }}
+      >
+        <div className='text-7xl font-bold pb-20'>Üdvözlünk a Hogyvagymaapa weboldalán!</div>
+        <div className='flex flex-row justify-center items-center gap-10'>
+          <button
+            type='button'
+            className='w-full rounded-md px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 bg-[#259372] flex justify-center items-center transition duration-300 ease-in-out hover:bg-[#1e7e61] hover:shadow-primary-2'
+            onClick={onRegisterClick}
+          >
+            <div className='flex flex-row items-center gap-2 text-xl'>
+              Regisztrálás <FaUserPlus className='w-5 h-5' />
+            </div>
+          </button>
+          <button
+            type='button'
+            className='w-full rounded-md px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 bg-[#7061A8] flex justify-center items-center transition duration-300 ease-in-out hover:bg-[#554884] hover:shadow-primary-2'
+            onClick={onLoginClick}
+          >
+            <div className='flex flex-row items-center gap-2 text-xl'>
+              Bejelentkezés <FaRightToBracket className='w-5 h-5' />
+            </div>
+          </button>
+        </div>
       </div>
-      {joinedRooms && <WebSocketComponent className='px-4' room={joinedRooms} />}
-    </>
+      <div className='w-full h-screen flex justify-center items-center snap-start'>Second Page</div>
+      <div className='w-full h-screen flex justify-center items-center snap-start'>Third Page</div>
+      <div className='w-full h-screen flex justify-center items-center snap-start'>Fourth Page</div>
+    </div>
   );
 }
