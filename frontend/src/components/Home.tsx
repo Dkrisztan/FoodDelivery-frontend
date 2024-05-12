@@ -48,9 +48,7 @@ export function Home() {
             // Same substring at the start will only be typed out once, initially
             'Üdvözlünk a Hogyvagymaapa weboldalán!',
             1000, // wait 1s before replacing "Mice" with "Hamsters"
-            'We produce food for Hamsters',
-            1000,
-            'We produce food for Guinea Pigs',
+            'Idősfelügyelet modern technológiával',
             1000,
           ]}
           wrapper='span'
