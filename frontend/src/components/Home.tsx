@@ -2,7 +2,7 @@ import bg from '../assets/homepage.png';
 import { FaRightToBracket } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { FaUserPlus } from 'react-icons/fa';
-import { SVGProps } from 'react';
+import { SVGProps, useRef } from 'react';
 import { JSX } from 'react/jsx-runtime';
 import { TypeAnimation } from 'react-type-animation';
 
@@ -28,6 +28,7 @@ function ArrowDownIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>)
 
 export function Home() {
   const navigate = useNavigate();
+  const refToScroll = useRef(null);
 
   const onLoginClick = () => {
     navigate('/login');
@@ -35,6 +36,12 @@ export function Home() {
 
   const onRegisterClick = () => {
     navigate('/register');
+  };
+
+  const scrollToElement = () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    refToScroll.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -47,7 +54,7 @@ export function Home() {
           sequence={[
             // Same substring at the start will only be typed out once, initially
             'Üdvözlünk a Hogyvagymaapa weboldalán!',
-            1000, // wait 1s before replacing "Mice" with "Hamsters"
+            1000,
             'Idősfelügyelet modern technológiával',
             1000,
           ]}
@@ -84,11 +91,20 @@ export function Home() {
             </div>
           </button>
         </div>
-        <div className='absolute bottom-0 mb-8 animate-bounce'>
+        <div
+          className='absolute bottom-0 mb-8 animate-bounce'
+          onClick={scrollToElement}
+          style={{ cursor: 'pointer' }}
+        >
           <ArrowDownIcon className='h-10 w-10' />
         </div>
       </div>
-      <div className='w-full h-screen flex justify-center items-center snap-start'>Second Page</div>
+      <div
+        ref={refToScroll}
+        className='w-full h-screen flex justify-center items-center snap-start'
+      >
+        Second Page
+      </div>
       <div className='w-full h-screen flex justify-center items-center snap-start'>Third Page</div>
     </div>
   );
