@@ -69,12 +69,50 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        typewriter: {
+          to: {
+            left: '100%',
+          },
+        },
+        blink: {
+          '0%': {
+            opacity: '0',
+          },
+          '0.1%': {
+            opacity: '1',
+          },
+          '50%': {
+            opacity: '1',
+          },
+          '50.1%': {
+            opacity: '0',
+          },
+          '100%': {
+            opacity: '0',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        typewriter: 'typewriter 3s steps(37) forwards',
+        caret: 'typewriter 3s steps(37) forwards, blink 1s steps(37) infinite 2s',
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), require('tailwind-scrollbar')],
+  plugins: [
+    require('tailwindcss-animate'),
+    require('tailwind-scrollbar'),
+    require('tailwind-typewriter')({
+      wordsets: {
+        welcome: {
+          words: ['Üdvözlünk a Hogyvagymaapa weboldalán!'],
+          repeat: 0,
+          eraseSpeed: 0,
+          writeSpeed: 0.1,
+          caretWidth: '5px',
+        },
+      },
+    }),
+  ],
 };
