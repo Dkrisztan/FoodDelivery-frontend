@@ -2,14 +2,24 @@ import bg from '../assets/homepage.png';
 import { FaRightToBracket } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { FaUserPlus } from 'react-icons/fa';
-import { SVGProps, useRef } from 'react';
+import { SVGProps, useEffect, useRef, useState } from 'react';
 import { JSX } from 'react/jsx-runtime';
 import { TypeAnimation } from 'react-type-animation';
-import { useIsVisible } from '@/components/hooks/useIsVisible.tsx';
 import krisztian from '../assets/krisztian-circle.png';
 import adam from '../assets/adam-circle.png';
 import hunor from '../assets/hunor-circle.png';
 import tuyaplug from '../assets/tuyaplug.jpeg';
+
+const slideUpAnimation = {
+  transition: 'transform 1.5s ease-out, opacity 1s ease-out',
+  transform: 'translateY(0)',
+  opacity: 1,
+};
+const slideUpAnimationHidden = {
+  transition: 'transform 1s ease-out, opacity 1s ease-out',
+  transform: 'translateY(100%)',
+  opacity: 0,
+};
 
 function ArrowDownIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
@@ -36,8 +46,31 @@ export function Home() {
 
   const refToScroll = useRef(null);
 
+  const [isVisible, setIsVisible] = useState(false);
   const refLast = useRef(null);
-  const isVisible = useIsVisible(refLast);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5,
+      },
+    );
+
+    if (refLast.current) {
+      observer.observe(refLast.current);
+    }
+
+    return () => {
+      if (refLast.current) {
+        observer.unobserve(refLast.current);
+      }
+    };
+  }, []);
 
   const onLoginClick = () => {
     navigate('/login');
@@ -133,7 +166,8 @@ export function Home() {
       <div className='w-full h-screen flex flex-col snap-start bg-[#A0D8B3] justify-center gap-32'>
         <div
           ref={refLast}
-          className={`text-center text-6xl font-bold mb-4 transition-transform transform translate-y-full opacity-0 duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0'}`}
+          className='text-center text-6xl font-bold mb-4'
+          style={isVisible ? slideUpAnimation : slideUpAnimationHidden}
         >
           Akik nélkül nem jöhetett volna létre
         </div>
