@@ -116,7 +116,11 @@ export function Profile() {
   };
 
   useEffect(() => {
-    fetchProfile();
+    const intervalId = setInterval(() => {
+      fetchProfile();
+    }, 10000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -222,6 +226,7 @@ export function Profile() {
         </Dialog>
       </div>
 
+      <div className='pt-10'></div>
       <MyTimeline plugs={profile.plugs} />
 
       {/* Mapping over the user's plug array */}

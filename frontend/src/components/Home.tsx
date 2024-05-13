@@ -145,20 +145,29 @@ export function Home() {
         ref={refToScroll}
         className='w-full h-screen flex flex-col items-center snap-start bg-[#EFC6BD]'
       >
-        <div className='text-7xl font-bold pt-10 pb-20'>A termék</div>
-        <div className='flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row'>
+        <div className='text-7xl font-bold pt-10 pb-24'>A termék</div>
+        <div className='flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row h-2/3 px-5'>
           <img
             className='object-cover w-full rounded-t-lg md:w-96 md:rounded-none md:rounded-s-lg'
             src={tuyaplug}
             alt=''
           />
           <div className='flex flex-col justify-between p-4 leading-normal'>
-            <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>
-              Noteworthy technology acquisitions 2021
+            <h5 className='mb-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-white pb-10'>
+              Tuya okoskonnektor
             </h5>
-            <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>
-              Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse
-              chronological order.
+            <p className='mb-3 font-normal text-xl text-gray-700 dark:text-gray-400 max-w-3xl'>
+              WiFi képes 230V-os fogyasztásmérős konnektor-közdarabokat telepítünk a mikrosütő, a
+              kávégép, a vízforraló, a mosógép, a TV, az olvasólámpa stb. tápellátását adó fali
+              konnektorokba, és elhelyezünk egy 4G LTE WiFi hotspotot olcsó havi előfizetéssel,
+              melyre a pillanatnyi fogyasztási adatok másodpercenként felkerülnek. A
+              hogyvagymaapa.hu oldalon beregisztrálva konfiguráljuk, hogy melyik adatfolyam melyik
+              háztartási gép, és eztán amikor csak eszünkbe jut, színes csíkokkal jelezve tudhatjuk
+              apánk/anyánk mindennapjait a készülékhasználatok alakulásának szintjén. És így a gépek
+              nem felügyelik őt, mi mégis idejekorán megláthatunk aggasztó trendeket, esetleges
+              vészhelyzeteket, de a legnagyobb segítség, hogy erőlködés és erőltetés nélkül témákat
+              kapunk egy-egy rövid, de napi aktualitású telefonbeszélgetéshez: „Apa, ma mi volt,
+              hogy csak du. 2-kor kávéztál?”.
             </p>
           </div>
         </div>
