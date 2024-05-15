@@ -20,15 +20,25 @@ const MyTimeline = ({ plugs }) => {
   const groups = new DataSet([]);
   const items = new DataSet([]);
 
+  const addGroups = () => {
+    groups.clear();
+    for (const value of plugs) {
+      groups.add({
+        content: value.name,
+        id: value.deviceId,
+      });
+    }
+  };
+
   useEffect(() => {
+    addGroups();
+  }, []);
+
+  useEffect(() => {
+    addGroups();
     async function handleData() {
-      groups.clear();
       items.clear();
       for (const value of plugs) {
-        groups.add({
-          content: value.name,
-          id: value.deviceId,
-        });
         const incomingData = await axios.get(
           'https://onlab-backend.vercel.app/data/' + value.deviceId,
           config,
@@ -36,12 +46,6 @@ const MyTimeline = ({ plugs }) => {
         console.log(incomingData);
         incomingData.data.forEach((d) => {
           items.add({
-            start: new Date(d.startTime),
-            end: new Date(d.endTime),
-            group: value.deviceId,
-            className: value.color,
-          });
-          console.log({
             start: new Date(d.startTime),
             end: new Date(d.endTime),
             group: value.deviceId,

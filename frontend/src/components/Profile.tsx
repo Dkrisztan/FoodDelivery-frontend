@@ -118,7 +118,7 @@ export function Profile() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchProfile();
-    }, 10000);
+    }, 30000);
 
     return () => clearInterval(intervalId);
   }, []);
