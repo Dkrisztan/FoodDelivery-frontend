@@ -2,31 +2,16 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import userIcon from '../assets/user.png';
-import { FaSquarePlus } from 'react-icons/fa6';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog.tsx';
-import Icons from '@/utils/Icons.tsx';
-import { Label } from '@/components/ui/label.tsx';
-import { Input } from '@/components/ui/input.tsx';
+// @ts-expect-error
+import MyTimeline from './MyTimeline';
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select.tsx';
-import { Button } from '@/components/ui/button.tsx';
-import { HexColorPicker } from 'react-colorful';
-// @ts-expect-error
-import MyTimeline from './MyTimeline';
+import { FaEdit } from 'react-icons/fa';
 
 //! Used for testing
 // const plugArray = [
@@ -87,6 +72,25 @@ export function Profile() {
   const [deviceId, setDeviceId] = useState('');
   const [icon, setIcon] = useState('microwave');
   const [color, setColor] = useState('#AABBCC');
+  const [selectedPlug, setSelectedPlug] = useState(null);
+
+  function handlePlugSelection(plug) {
+    setSelectedPlug(
+      profile.plugs.find((i) => {
+        return i.id === plug;
+      }),
+    );
+  }
+
+  // Function to handle plug data changes
+  function handleInputChange(event) {
+    // Handle changes to plug data fields
+  }
+
+  // Function to handle saving changes
+  function handleSaveChanges() {
+    // Save changes to plug data
+  }
 
   async function handlePlugCreation() {
     const plugData = {
@@ -118,11 +122,13 @@ export function Profile() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchProfile();
-    }, 30000);
+    }, 100);
 
     return () => clearInterval(intervalId);
   }, []);
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <>
       <div className='w-full px-[200px] mx-auto mt-8'>
@@ -141,89 +147,120 @@ export function Profile() {
           </div>
         </div>
 
-        <Dialog>
-          <DialogTrigger asChild>
-            <button
-              type='button'
-              className='w-full rounded-md pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 bg-[#259372] flex justify-center items-center transition duration-300 ease-in-out hover:bg-[#1e7e61] hover:shadow-primary-2'
-            >
-              <div className='flex flex-row items-center gap-2 text-xl'>
-                Konnektor hozzáadása <FaSquarePlus className='w-5 h-5' />
-              </div>
-            </button>
-          </DialogTrigger>
-          <DialogContent className='w-1/5 bg-neutral-800 text-white border-none'>
-            <DialogHeader>
-              <DialogTitle className='text-center'>Konnektor hozzáadása</DialogTitle>
-            </DialogHeader>
-            <div className='flex flex-row py-2 justify-evenly'>
-              <div className='flex flex-row items-center justify-between gap-4'>
-                <Label htmlFor='name' className='text-right'>
-                  Név
-                </Label>
-                <Input
-                  type='text'
-                  id='name'
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                  }}
-                  className='bg-neutral-800 text-white'
-                />
-              </div>
-              <div>
-                <Select onValueChange={(e) => setIcon(Object.keys(Icons)[+e].toString())}>
-                  <SelectTrigger className='w-[40px] p-0 outline-none border-none focus:outline-none focus:shadow-none bg-neutral-800'>
-                    <SelectValue
-                      placeholder={
-                        <img alt='icon' height='64' src={Icons['microwave']} width='64' />
-                      }
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {Object.keys(Icons).map((value, index) => {
-                        return (
-                          <SelectItem value={index.toString()}>
-                            <img alt='icon' height='64' width='64' src={Icons[value]} />
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className='flex flex-row py-2'>
-              <div className='flex flex-row items-center gap-3'>
-                <Label htmlFor='name' className='text-right'>
-                  DeviceId
-                </Label>
-                <Input
-                  type='text'
-                  id='name'
-                  value={deviceId}
-                  onChange={(e) => {
-                    setDeviceId(e.target.value);
-                  }}
-                  className='bg-neutral-800 text-white'
-                />
-              </div>
-            </div>
-            <HexColorPicker color={color} onChange={setColor} className='react-colorful' />
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button
-                  className='mx-auto bg-gray-200 text-black font-bold hover:bg-gray-300'
-                  type='submit'
-                  onClick={handlePlugCreation}
-                >
-                  Hozzáadás
-                </Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <h1 className='font-bold text-3xl pb-2'>Konnektor módosítása</h1>
+        <Select onValueChange={handlePlugSelection}>
+          <SelectTrigger className='w-full text-xl bg-[#259372] text-white'>
+            <SelectValue
+              placeholder={
+                <div className='flex flex-row  justify-center items-center gap-2'>
+                  <span className='bg-[#259372] text-white'>Válassz ki egy konnektort!</span>{' '}
+                  <FaEdit className='w-5 h-5' />
+                </div>
+              }
+            />
+          </SelectTrigger>
+          <SelectContent>
+            {profile.plugs.map((plug) => (
+              <SelectItem key={plug.id} value={plug.id}>
+                {plug.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {selectedPlug && (
+          <div className='bg-yellow-500 p-4 mt-5 border rounded-md'>
+            <form onSubmit={handleSaveChanges}>
+              <label htmlFor='name'>Name:</label>
+              <input type='text' id='name' value={selectedPlug.name} onChange={handleInputChange} />
+              <button type='submit'>Save Changes</button>
+            </form>
+          </div>
+        )}
+
+        {/*<Dialog>*/}
+        {/*  <DialogTrigger asChild>*/}
+        {/*    <button*/}
+        {/*      type='button'*/}
+        {/*      className='w-full rounded-md pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 bg-[#259372] flex justify-center items-center transition duration-300 ease-in-out hover:bg-[#1e7e61] hover:shadow-primary-2'*/}
+        {/*    >*/}
+        {/*      <div className='flex flex-row items-center gap-2 text-xl'>*/}
+        {/*        Konnektor módosítása <FaEdit className='w-5 h-5' />*/}
+        {/*      </div>*/}
+        {/*    </button>*/}
+        {/*  </DialogTrigger>*/}
+        {/*  <DialogContent className='w-1/5 bg-neutral-800 text-white border-none'>*/}
+        {/*    <DialogHeader>*/}
+        {/*      <DialogTitle className='text-center'>Konnektor módosítása</DialogTitle>*/}
+        {/*    </DialogHeader>*/}
+        {/*    <div className='flex flex-row py-2 justify-evenly'>*/}
+        {/*      <div className='flex flex-row items-center justify-between gap-4'>*/}
+        {/*        <Label htmlFor='name' className='text-right'>*/}
+        {/*          Név*/}
+        {/*        </Label>*/}
+        {/*        <Input*/}
+        {/*          type='text'*/}
+        {/*          id='name'*/}
+        {/*          value={name}*/}
+        {/*          onChange={(e) => {*/}
+        {/*            setName(e.target.value);*/}
+        {/*          }}*/}
+        {/*          className='bg-neutral-800 text-white'*/}
+        {/*        />*/}
+        {/*      </div>*/}
+        {/*      <div>*/}
+        {/*        <Select onValueChange={(e) => setIcon(Object.keys(Icons)[+e].toString())}>*/}
+        {/*          <SelectTrigger className='w-[40px] p-0 outline-none border-none focus:outline-none focus:shadow-none bg-neutral-800'>*/}
+        {/*            <SelectValue*/}
+        {/*              placeholder={*/}
+        {/*                <img alt='icon' height='64' src={Icons['microwave']} width='64' />*/}
+        {/*              }*/}
+        {/*            />*/}
+        {/*          </SelectTrigger>*/}
+        {/*          <SelectContent>*/}
+        {/*            <SelectGroup>*/}
+        {/*              {Object.keys(Icons).map((value, index) => {*/}
+        {/*                return (*/}
+        {/*                  <SelectItem value={index.toString()}>*/}
+        {/*                    <img alt='icon' height='64' width='64' src={Icons[value]} />*/}
+        {/*                  </SelectItem>*/}
+        {/*                );*/}
+        {/*              })}*/}
+        {/*            </SelectGroup>*/}
+        {/*          </SelectContent>*/}
+        {/*        </Select>*/}
+        {/*      </div>*/}
+        {/*    </div>*/}
+        {/*    <div className='flex flex-row py-2'>*/}
+        {/*      <div className='flex flex-row items-center gap-3'>*/}
+        {/*        <Label htmlFor='name' className='text-right'>*/}
+        {/*          DeviceId*/}
+        {/*        </Label>*/}
+        {/*        <Input*/}
+        {/*          type='text'*/}
+        {/*          id='name'*/}
+        {/*          value={deviceId}*/}
+        {/*          onChange={(e) => {*/}
+        {/*            setDeviceId(e.target.value);*/}
+        {/*          }}*/}
+        {/*          className='bg-neutral-800 text-white'*/}
+        {/*        />*/}
+        {/*      </div>*/}
+        {/*    </div>*/}
+        {/*    <HexColorPicker color={color} onChange={setColor} className='react-colorful' />*/}
+        {/*    <DialogFooter>*/}
+        {/*      <DialogClose asChild>*/}
+        {/*        <Button*/}
+        {/*          className='mx-auto bg-gray-200 text-black font-bold hover:bg-gray-300'*/}
+        {/*          type='submit'*/}
+        {/*          onClick={handlePlugCreation}*/}
+        {/*        >*/}
+        {/*          Módosítás*/}
+        {/*        </Button>*/}
+        {/*      </DialogClose>*/}
+        {/*    </DialogFooter>*/}
+        {/*  </DialogContent>*/}
+        {/*</Dialog>*/}
       </div>
 
       <div className='pt-10'></div>

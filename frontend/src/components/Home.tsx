@@ -191,7 +191,9 @@ export function Home() {
               <h5 className='mb-1 text-xl font-medium text-gray-900 dark:text-white'>
                 Dr. Sántha Hunor
               </h5>
-              <span className='text-sm text-gray-600 dark:text-gray-400 pb-4'>Feltaláló</span>
+              <span className='text-sm text-gray-600 dark:text-gray-400 pb-4'>
+                Egyetemi oktató & feltaláló
+              </span>
               <p className='font-semibold text-xl'>Ötletgazda & Megrendelő</p>
             </div>
           </div>
