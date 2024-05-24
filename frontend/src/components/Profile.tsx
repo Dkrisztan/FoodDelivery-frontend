@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import userIcon from '../assets/user.png';
 // @ts-expect-error
 import MyTimeline from './MyTimeline';
@@ -13,54 +14,36 @@ import {
 } from '@/components/ui/select.tsx';
 import { FaEdit } from 'react-icons/fa';
 
-//! Used for testing
-// const plugArray = [
-//   {
-//     name: 'Kávéfőző',
-//     color: '#87abe6',
-//     icon: 'coffeeMaker',
-//   },
-//   {
-//     name: 'Hűtő',
-//     color: '#03fc94',
-//     icon: 'refrigerator',
-//   },
-//   {
-//     name: 'TV',
-//     color: '#8557c9',
-//     icon: 'television',
-//   },
-//   {
-//     name: 'Hősugárzó',
-//     color: '#f58f15',
-//     icon: 'radiator',
-//   },
-//   {
-//     name: 'Mosógép',
-//     color: '#c7a5bf',
-//     icon: 'laundryMachine',
-//   },
-//   {
-//     name: 'Mikró',
-//     color: '#d3276c',
-//     icon: 'microwave',
-//   },
-// ];
+interface Plug {
+  id: string;
+  name: string;
+  color: string;
+  deviceId: string;
+}
 
-// interface Plug {
-//   id: string;
-//   deviceId: string;
-//   name: string;
-//   iconName: string;
-//   color: string;
-// }
+interface Profile {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  plugs: Plug[];
+}
+
+const colorOptions = [
+  'mustard-yellow',
+  'mint-green',
+  'dark-blue',
+  'dark-orange',
+  'dark-red',
+  'light-pink',
+];
 
 export function Profile() {
   const config = {
     headers: { Authorization: `Bearer ${Cookies.get('accessToken')}` },
   };
 
-  const [profile, setProfile] = useState({
+  const [profile, setProfile] = useState<Profile>({
     id: '',
     name: '',
     email: '',
@@ -68,46 +51,40 @@ export function Profile() {
     plugs: [],
   });
 
-  const [name, setName] = useState('Konnektor');
-  const [deviceId, setDeviceId] = useState('');
-  const [icon, setIcon] = useState('microwave');
-  const [color, setColor] = useState('#AABBCC');
-  const [selectedPlug, setSelectedPlug] = useState(null);
+  const [selectedPlug, setSelectedPlug] = useState<Plug | null>(null);
+  const navigate = useNavigate();
+  const handlePlugSelection = (plugId: string) => {
+    const selected = profile.plugs.find((plug) => plug.id === plugId) || null;
+    setSelectedPlug(selected);
+  };
 
-  function handlePlugSelection(plug) {
-    setSelectedPlug(
-      profile.plugs.find((i) => {
-        return i.id === plug;
-      }),
-    );
-  }
-
-  // Function to handle plug data changes
-  function handleInputChange(event) {
-    // Handle changes to plug data fields
-  }
-
-  // Function to handle saving changes
-  function handleSaveChanges() {
-    // Save changes to plug data
-  }
-
-  async function handlePlugCreation() {
-    const plugData = {
-      name: name,
-      deviceId: deviceId,
-      iconName: icon,
-      color: color,
-      userId: profile.id,
-    };
-    try {
-      const response = await axios.post('https://onlab-backend.vercel.app/plug', plugData, config);
-      console.log(response);
-      fetchProfile();
-    } catch (e) {
-      console.log(e);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    if (selectedPlug) {
+      const { id, value } = e.target;
+      setSelectedPlug({ ...selectedPlug, [id]: value });
     }
-  }
+  };
+
+  const handleSaveChanges = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (selectedPlug) {
+      try {
+        await axios.patch(
+          `https://onlab-backend.vercel.app/plug/${selectedPlug.deviceId}`,
+          { name: selectedPlug.name, color: selectedPlug.color },
+          config,
+        );
+        fetchProfile();
+      } catch (error) {
+        console.error('Error saving changes:', error);
+      }
+    }
+  };
+
+  const handleLogout = () => {
+    Cookies.remove('accessToken'); // Remove the token cookie
+    navigate('/'); // Redirect to the login page
+  };
 
   const fetchProfile = async () => {
     try {
@@ -120,23 +97,30 @@ export function Profile() {
   };
 
   useEffect(() => {
+    fetchProfile();
     const intervalId = setInterval(() => {
       fetchProfile();
-    }, 100);
+    }, 30000);
 
     return () => clearInterval(intervalId);
   }, []);
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <>
-      <div className='w-full px-[200px] mx-auto mt-8'>
-        <div className='bg-blue-200 shadow-md rounded px-8 pt-6 pb-8 mb-4'>
-          <h1 className='text-2xl mb-4 flex items-center'>
-            <img src={userIcon} width='64px' height='64px' alt='user' />
-            {profile && profile.name.toUpperCase()}
-          </h1>
+      <div className='w-full px-[200px] mx-auto mt-8 relative'>
+        <div className='bg-blue-200 shadow-md rounded px-8 pt-6 pb-8 mb-4 relative'>
+          <button
+            onClick={handleLogout}
+            className='absolute top-4 right-4 bg-red-500 text-white p-2 rounded'
+          >
+            Kijelentkezés
+          </button>
+          <div className='flex flex-row items-center'>
+            <h1 className='text-2xl mb-4 flex items-center'>
+              <img src={userIcon} width='64px' height='64px' alt='user' />
+              {profile && profile.name.toUpperCase()}
+            </h1>
+          </div>
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-bold mb-2'>ID:</label>
             <p>{profile.id}</p>
@@ -152,8 +136,8 @@ export function Profile() {
           <SelectTrigger className='w-full text-xl bg-[#259372] text-white'>
             <SelectValue
               placeholder={
-                <div className='flex flex-row  justify-center items-center gap-2'>
-                  <span className='bg-[#259372] text-white'>Válassz ki egy konnektort!</span>{' '}
+                <div className='flex flex-row justify-center items-center gap-2'>
+                  <span className='bg-[#259372] text-white'>Válassz ki egy konnektort!</span>
                   <FaEdit className='w-5 h-5' />
                 </div>
               }
@@ -169,11 +153,40 @@ export function Profile() {
         </Select>
 
         {selectedPlug && (
-          <div className='bg-yellow-500 p-4 mt-5 border rounded-md'>
-            <form onSubmit={handleSaveChanges}>
-              <label htmlFor='name'>Name:</label>
-              <input type='text' id='name' value={selectedPlug.name} onChange={handleInputChange} />
-              <button type='submit'>Save Changes</button>
+          <div className='bg-[#B3B3F1] p-4 mt-5 border rounded-md'>
+            <form>
+              <div className='mb-4'>
+                <label htmlFor='name' className='block text-gray-700 text-sm font-bold mb-2'>
+                  Név:
+                </label>
+                <input
+                  type='text'
+                  id='name'
+                  value={selectedPlug.name}
+                  onChange={handleInputChange}
+                  className='w-full p-2 border rounded'
+                />
+              </div>
+              <div className='mb-4'>
+                <label htmlFor='color' className='block text-gray-700 text-sm font-bold mb-2'>
+                  Szín:
+                </label>
+                <select
+                  id='color'
+                  value={selectedPlug.color}
+                  onChange={handleInputChange}
+                  className='w-full p-2 border rounded'
+                >
+                  {colorOptions.map((color) => (
+                    <option key={color} value={color}>
+                      {color}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <button onClick={handleSaveChanges} className='bg-[#23CE6B] text-white p-2 rounded'>
+                Save Changes
+              </button>
             </form>
           </div>
         )}
